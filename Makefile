@@ -1,23 +1,51 @@
-# Compilation
-CC = gcc
+# ----- Names ----- #
+CLIENT	=	client
+SERVER	=	server
 
-# Flags
-CFLAGS = -Wall -Wextra -Werror
+# ----- Compiling Variables ----- #
+CC		=	gcc
+CFLAGS	=	-Wall -Wextra -Werror
+RM		=	rm -f
 
-all: client server
+# ----- libft Variables ----- #
+LIBFT_DIR	=	./42-Libft
+LIBFT		=	$(LIBFT_DIR)/libft.a
 
-client:
-	@gcc client.c -o client
+# ----- Main Variables ----- #
+SRC_CLIENT	=	client.c
+SRC_SERVER	=	server.C
+INC			=	-I. -I$(LIBFT_DIR)
 
-server:
-	@gcc server.c -o server
+# ----- Colors ----- #
+GREEN		=	\e[38;5;118m
+YELLOW		=	\e[38;5;226m
+RESET		=	\e[0m
+_SUCCESS	=	[$(GREEN)SUCCESS$(RESET)]
+_INFO		=	[$(YELLOW)INFO$(RESET)]
+
+all:
+
+$(SERVER): $(LIBFT)
+	@ $(CC) $(CFLAGS) $(SRC_SERVER) $(LIBFT) $(INC) -o $(SERVER)
+	@ printf "$(_SUCCESS) 💻 server is now ready.\n"
+
+$(CLIENT): $(LIBFT)
+	@ $(CC) $(CFLAGS) $(SRC_CLIENT) $(LIBFT) $(INC) -o $(CLIENT)
+	@ printf "$(_SUCCESS) 💂 server is now ready.\n"
+
+$(LIBFT):
+	@ printf "$(_INFO) 🔨 starting build libft.\n"
+	@ $(MAKE) -C $(LIBFT_DIR)
 
 clean:
-	@rm -rf *.o
+	@ $(RM) $(CLIENT) $(SERVER)
+	@ printf "$(_INFO) 🔥 client removed.\n"
+	@ printf "$(_INFO) 🔥 server removed.\n"
+	@ printf "$(_SUCCESS) ✅ repository succesfully cleaned.\n"
 
 fclean: clean
-	@rm -rf server
-	@rm -rf client
+	@ $(MAKE) fclean -C $(LIBFT_DIR)
+	@ printf "$(_SUCCESS) ✅ repository succesfully fcleaned.\n"
 
 re: fclean all
 
