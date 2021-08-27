@@ -13,23 +13,24 @@
 #include "minitalk.h"
 
 /*
-*	The exit_error function is called when program need to exit due to error
+*	The exit_error function is called when program need to exit due to error 
 *	(yeah, it's obvious).
 *
 *	@param	char *message	-	The string who was malloced in send_bit
 *							function (prevent potential leak ^^).
 *
-*	@result	-	Nothing.
+*	@result	Nothing.
 */
 void	exit_error(char *message)
 {
 	if (message)
 		free(message);
+	ft_putstr_color_fd(ANSI_COLOR_RED, "Exit Error.", 1);
 	exit(EXIT_FAILURE);
 }
 
 /*
-*	The send_bitnull function is called when send_bit function has finished
+*	The send_bitnull function is called when send_bit function has finished 
 *	to send all bits in message.
 *	It permit to server to know when the message is over from this client.
 *
@@ -38,24 +39,23 @@ void	exit_error(char *message)
 *	@param char *message	-	The string who was malloced in send_bit
 *							function (prevent potential leak ^^).
 *
-*	@result	-	0 if byte is not totaly send else 1.
+*	@result	0 if byte is not totaly send else 1.
 */
 int	send_bitnull(int s_pid, char *message)
 {
 	static int	count = 0;
 
-	if (count != 8)
+	if (count++ != 8)
 	{
 		if (kill(s_pid, SIGUSR1) == -1)
 			exit_error(message);
-		count++;
 		return (0);
 	}
 	return (1);
 }
 
 /*
-*	This function send bit per bit all bytes present in the string. The
+*	This function send bit per bit all bytes present in the string. The 
 *	program wait for a signal from the server to send the others
 *	bits.
 *
@@ -67,7 +67,7 @@ int	send_bitnull(int s_pid, char *message)
 *						As pid, this parameter is given not null
 *						only one time in the main function.
 *
-*	@result	-	0 if we are waiting signal from server or 1 to end the
+*	@result	0 if we are waiting signal from server or 1 to end the
 *			program.
 */
 int	send_bit(int pid, char *str)
@@ -84,7 +84,7 @@ int	send_bit(int pid, char *str)
 		s_pid = pid;
 	if (message[++bitshift / 8])
 	{
-		if (message[bitshift / 8] & (0x80 >> bitshift % 8))
+		if (message[bitshift / 8] & (0x80 >> (bitshift % 8)))
 		{
 			if (kill(s_pid, SIGUSR2) == -1)
 				exit_error(message);
@@ -107,7 +107,7 @@ int	send_bit(int pid, char *str)
 *
 *	@param	int signum	-	Received signal value.
 *
-*	@result	-	Nothing.
+*	@result	Nothing.
 */
 void	handler_sigusrs(int signum)
 {
@@ -117,9 +117,15 @@ void	handler_sigusrs(int signum)
 	if (signum == SIGUSR1)
 		end = send_bit(0, 0);
 	else if (signum == SIGUSR2)
+	{
+		ft_putstr_color_fd(ANSI_COLOR_RED, "Error with server.\n", 1);
 		exit(EXIT_FAILURE);
+	}
 	if (end)
+	{
+		ft_putstr_color_fd(ANSI_COLOR_GREEN, "Message sended OK.\n", 1);
 		exit(EXIT_SUCCESS);
+	}
 }
 
 /*
