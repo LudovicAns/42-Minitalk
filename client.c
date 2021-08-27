@@ -25,7 +25,7 @@ void	exit_error(char *message)
 {
 	if (message)
 		free(message);
-	ft_putstr_color_fd(ANSI_COLOR_RED, "Exit Error.", 1);
+	ft_putstr_color_fd(ANSI_COLOR_RED, "Exit Error.", 2);
 	exit(EXIT_FAILURE);
 }
 
@@ -118,7 +118,7 @@ void	handler_sigusrs(int signum)
 		end = send_bit(0, 0);
 	else if (signum == SIGUSR2)
 	{
-		ft_putstr_color_fd(ANSI_COLOR_RED, "Error with server.\n", 1);
+		ft_putstr_color_fd(ANSI_COLOR_RED, "Error with server.\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	if (end)
