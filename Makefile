@@ -9,11 +9,11 @@ RM		=	rm -f
 
 # ----- libft Variables ----- #
 LIBFT_DIR	=	./42-Libft
-LIBFT		=	$(LIBFT_DIR)/libft.a
+LIBFT		=	./42-Libft/libft.a
 
 # ----- Main Variables ----- #
 SRC_CLIENT	=	client.c
-SRC_SERVER	=	server.C
+SRC_SERVER	=	server.c
 INC			=	-I. -I$(LIBFT_DIR)
 
 # ----- Colors ----- #
@@ -23,7 +23,7 @@ RESET		=	\e[0m
 _SUCCESS	=	[$(GREEN)SUCCESS$(RESET)]
 _INFO		=	[$(YELLOW)INFO$(RESET)]
 
-all:
+all: $(SERVER) $(CLIENT)
 
 $(SERVER): $(LIBFT)
 	@ $(CC) $(CFLAGS) $(SRC_SERVER) $(LIBFT) $(INC) -o $(SERVER)
@@ -31,7 +31,7 @@ $(SERVER): $(LIBFT)
 
 $(CLIENT): $(LIBFT)
 	@ $(CC) $(CFLAGS) $(SRC_CLIENT) $(LIBFT) $(INC) -o $(CLIENT)
-	@ printf "$(_SUCCESS) 💂 server is now ready.\n"
+	@ printf "$(_SUCCESS) 💂 client is now ready.\n"
 
 $(LIBFT):
 	@ printf "$(_INFO) 🔨 starting build libft.\n"
