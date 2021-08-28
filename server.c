@@ -13,7 +13,16 @@
 #include "minitalk.h"
 
 /*
-*	Need documentation.
+*	The exit_error function is called when program need to exit due to error 
+*	(yeah, it's obvious).
+*
+*	@param	int c_pid	-	The pid of client to tell him that server has
+						encountered an error.
+*
+*	@param	char *message	-	The string who was malloced in handler_sigusrs
+*							function (prevent potential leak ^^).
+*
+*	@result	Nothing.
 */
 void	exit_error(int c_pid, char *message)
 {
@@ -24,7 +33,12 @@ void	exit_error(int c_pid, char *message)
 }
 
 /*
-*	Need documentation.
+*	This function is here to make handler_sigusrs function less bigger. 
+*	It display the recieved message and free it after.
+*
+*	@param	char *message	-	The message to display in STDOUT.
+*
+*	@result	NULL.
 */
 char	*disp_string(char *message)
 {
@@ -34,7 +48,20 @@ char	*disp_string(char *message)
 }
 
 /*
-*	Need documentation.
+*	The handler_sigusrs function handle signals of the program. 
+*	Depend of recieved signal (SIGUSR1 or SIGUSR2), the function 
+*	build the recieved message bit per bit, byte per byte.
+*	When it recieve NULL byte, the function call disp_string function.
+*
+*	@param	int signum	-	Received signal value.
+*
+*	@param	siginfo_t *info	-	Contains usefull informations coming from 
+*							client.
+*
+*	@param	void *context	-	Unused but compulsory due to sigaction 
+*							flag (SA_SIGINFO).
+*
+*	@result	Nothing.
 */
 void	handler_sigusrs(int signum, siginfo_t *info, void *context)
 {
