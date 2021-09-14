@@ -75,7 +75,7 @@ int	send_bit(int pid, char *str)
 	static char	*message = 0;
 	static int	bitshift = -1;
 	static int	s_pid = 0;
-	
+
 	if (str)
 		message = ft_strdup(str);
 	if (!message)
@@ -140,7 +140,6 @@ int	main(int argc, char **argv)
 {
 	if (argc != 3 || !ft_str_isnumeric(argv[1]))
 		exit(EXIT_FAILURE);
-
 	signal(SIGUSR1, handler_sigusrs);
 	signal(SIGUSR2, handler_sigusrs);
 	send_bit(ft_atoi(argv[1]), argv[2]);

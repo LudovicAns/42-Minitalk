@@ -8,13 +8,14 @@ CFLAGS	=	-Wall -Wextra -Werror
 RM		=	rm -f
 
 # ----- libft Variables ----- #
-LIBFT_DIR	=	./42-Libft
-LIBFT		=	./42-Libft/libft.a
+LIBFT_DIR		=	./42-Libft
+LIBFT_STACK_DIR	=	./42-Libft/stack
+LIBFT			=	./42-Libft/libft.a
 
 # ----- Main Variables ----- #
 SRC_CLIENT	=	client.c
 SRC_SERVER	=	server.c
-INC			=	-I. -I$(LIBFT_DIR)
+INC			=	-I. -I$(LIBFT_DIR) -I $(LIBFT_STACK_DIR)
 
 # ----- Colors ----- #
 GREEN		=	\e[38;5;118m
